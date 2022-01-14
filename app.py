@@ -12,7 +12,6 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
-NEWEST = csv_editor.get_last_3()
 
 
 @app.before_first_request
@@ -23,6 +22,7 @@ def create_table():
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'GET':
+        NEWEST = csv_editor.get_last_3()
         return render_template('home.html', new1=NEWEST[0], new2=NEWEST[1],
                                new3=NEWEST[2])
 
@@ -53,6 +53,7 @@ def home():
 def RetrieveList():
     if request.method == 'GET':
         products = ProductModel.query.all()
+        NEWEST = csv_editor.get_last_3()
         return render_template('datalist.html', products=products,
                                new1=NEWEST[0], new2=NEWEST[1], new3=NEWEST[2])
     if request.method == 'POST':
@@ -96,6 +97,7 @@ def update(id_):
                 return redirect('/data')
             else:
                 return redirect(f'/error-e/{id_}')
+    NEWEST = csv_editor.get_last_3()
     return render_template('update.html', product=product, new1=NEWEST[0],
                            new2=NEWEST[1], new3=NEWEST[2])
 
@@ -112,7 +114,7 @@ def delete(id_):
             db.session.commit()
             return redirect('/data')
         abort(404)
-
+    NEWEST = csv_editor.get_last_3()
     return render_template('delete.html', new1=NEWEST[0], new2=NEWEST[1],
                            new3=NEWEST[2])
 
@@ -121,6 +123,7 @@ def delete(id_):
 def about():
     if request.method == 'POST':
         return redirect('/')
+    NEWEST = csv_editor.get_last_3()
     return render_template('text.html', new1=NEWEST[0], new2=NEWEST[1],
                            new3=NEWEST[2])
 
@@ -129,6 +132,7 @@ def about():
 def error1():
     if request.method == 'POST':
         return redirect('/')
+    NEWEST = csv_editor.get_last_3()
     return render_template('error_home.html', new1=NEWEST[0], new2=NEWEST[1],
                            new3=NEWEST[2])
 
@@ -137,6 +141,7 @@ def error1():
 def error2(id_):
     if request.method == 'POST':
         return redirect(f'/data/{id_}/update')
+    NEWEST = csv_editor.get_last_3()
     return render_template('error_edit.html', new1=NEWEST[0], new2=NEWEST[1],
                            new3=NEWEST[2])
 
