@@ -1,5 +1,7 @@
 from flask import Flask, redirect, render_template, request, send_file
 from werkzeug.exceptions import abort
+
+import csv_editor
 from csv_editor import CSVEdit
 
 from models import ProductModel, db
@@ -10,6 +12,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
+NEWEST = csv_editor.get_last_3()
 
 
 @app.before_first_request
@@ -20,7 +23,8 @@ def create_table():
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'GET':
-        return render_template('home.html')
+        return render_template('home.html', new1=NEWEST[0], new2=NEWEST[1],
+                               new3=NEWEST[2])
 
     if request.method == 'POST':
         if request.form['btn_identifier'] == 'newInput':
@@ -49,7 +53,8 @@ def home():
 def RetrieveList():
     if request.method == 'GET':
         products = ProductModel.query.all()
-        return render_template('datalist.html', products=products)
+        return render_template('datalist.html', products=products,
+                               new1=NEWEST[0], new2=NEWEST[1], new3=NEWEST[2])
     if request.method == 'POST':
         if request.form["btn_identifier"] == 'home':
             return redirect('/')
@@ -91,7 +96,8 @@ def update(id_):
                 return redirect('/data')
             else:
                 return redirect(f'/error-e/{id_}')
-    return render_template('update.html', product=product)
+    return render_template('update.html', product=product, new1=NEWEST[0],
+                           new2=NEWEST[1], new3=NEWEST[2])
 
 
 @app.route('/data/<int:id_>/delete', methods=['GET', 'POST'])
@@ -107,28 +113,32 @@ def delete(id_):
             return redirect('/data')
         abort(404)
 
-    return render_template('delete.html')
+    return render_template('delete.html', new1=NEWEST[0], new2=NEWEST[1],
+                           new3=NEWEST[2])
 
 
 @app.route('/about/', methods=['GET', 'POST'])
 def about():
     if request.method == 'POST':
         return redirect('/')
-    return render_template('text.html')
+    return render_template('text.html', new1=NEWEST[0], new2=NEWEST[1],
+                           new3=NEWEST[2])
 
 
 @app.route('/error-h', methods=['GET', 'POST'])
 def error1():
     if request.method == 'POST':
         return redirect('/')
-    return render_template('error_home.html')
+    return render_template('error_home.html', new1=NEWEST[0], new2=NEWEST[1],
+                           new3=NEWEST[2])
 
 
 @app.route('/error-e/<int:id_>', methods=['GET', 'POST'])
 def error2(id_):
     if request.method == 'POST':
         return redirect(f'/data/{id_}/update')
-    return render_template('error_edit.html')
+    return render_template('error_edit.html', new1=NEWEST[0], new2=NEWEST[1],
+                           new3=NEWEST[2])
 
 
 if __name__ == "__main__":

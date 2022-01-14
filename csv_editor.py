@@ -1,5 +1,19 @@
 import csv
 
+import generate_IDs
+
+
+def get_last_3():
+    with open('product_info.csv', 'r') as readFile:
+        x = []
+        reader = csv.reader(readFile)
+        for row in reader:
+            x.append(row)
+        y = x[-1][0] + ', ' + x[-1][1] + ' available'
+        z = x[-2][0] + ', ' + x[-2][1] + ' available'
+        w = x[-3][0] + ', ' + x[-3][1] + ' available'
+        return [y, z, w]
+
 
 class CSVEdit:
     def __init__(self, id_):
@@ -19,6 +33,7 @@ class CSVEdit:
 
                     if str(self.id_) in field:
                         lines.remove(row)
+                        generate_IDs.remove_id(str(self.id_))
 
         with open('product_info.csv', 'w') as writeFile:
 
