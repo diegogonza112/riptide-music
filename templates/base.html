@@ -27,76 +27,32 @@
         }
 
         .site-header .navbar-nav .nav-link {
-          color: #cbd5db;
+          color: #c5c8ca;
         }
 
         .site-header .navbar-nav .nav-link:hover {
-          color: #c5c8ca;
+          color: #ffffff;
         }
 
         .site-header .navbar-nav .nav-link.active {
           font-weight: 500;
+          color: #c5c8ca
         }
 
         .content-section {
           background: #333;
           padding: 10px 20px;
-          border: 1px solid #dddddd;
+          border: 1px solid #c5c8ca;
           border-radius: 3px;
           margin-bottom: 20px;
         }
-
-        .article-title {
-          color: #444444;
-        }
-
-        a.article-title:hover {
-          color: #428bca;
-          text-decoration: none;
-        }
-
-        .article-content {
-          background-color: #333
-          white-space: pre-line;
-        }
-
-        .article-img {
-          height: 65px;
-          width: 65px;
-          margin-right: 16px;
-        }
-
-        .article-metadata {
-          padding-bottom: 1px;
-          margin-bottom: 4px;
-          border-bottom: 1px solid #e3e3e3
-        }
-
-        .article-metadata a:hover {
-          color: #333;
-          text-decoration: none;
-        }
-
-        .article-svg {
-          width: 25px;
-          height: 25px;
-          vertical-align: middle;
-        }
-
-        .account-img {
-          height: 125px;
-          width: 125px;
-          margin-right: 20px;
-          margin-bottom: 16px;
-        }
-
-        .account-heading {
-          font-size: 2.5rem;
+        .navbar-custom .navbar-text{
+          color: #c5c8ca
         }
 
         .list-group-mine .list-group-item {
           background-color: #333;
-          border: 1px solid #dddddd;
+          border: 1px solid #c5c8ca;
           border-radius: 3px;
           margin-bottom: 10px;
         }
@@ -104,6 +60,12 @@
           background-color: #c5c8ca;
           border-radius: 5px;
           border:none
+        }
+        html{
+          margin-bottom:65px
+        }
+        .navbar-brand.mr-4 {
+            color: #c5c8ca;
         }
 
     </style>
@@ -125,12 +87,15 @@
             <div class="collapse navbar-collapse" id="navbarToggle">
                 <div class="navbar-nav mr-auto">
                     <a class="nav-item nav-link" href="/">Home</a>
-                    <a class="nav-item nav-link" href="about">About</a>
+                    <a class="nav-item nav-link" href="{{ url_for('about') }}">About</a>
                 </div>
                 <!-- Navbar Right Side -->
             </div>
         </div>
     </nav>
+    <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-bottom">
+    </nav>
+
 </header>
 <main role="main" class="container">
     <div class="row">
