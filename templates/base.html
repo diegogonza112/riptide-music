@@ -13,13 +13,13 @@
 
     <style>
         body {
-          background: #fafafa;
-          color: #333333;
+          background: #333;
+          color: #c5c8ca;
           margin-top: 5rem;
         }
 
         h1, h2, h3, h4, h5, h6 {
-          color: #444444;
+          color: #c5c8ca;
         }
 
         .bg-steel {
@@ -31,7 +31,7 @@
         }
 
         .site-header .navbar-nav .nav-link:hover {
-          color: #ffffff;
+          color: #c5c8ca;
         }
 
         .site-header .navbar-nav .nav-link.active {
@@ -39,7 +39,7 @@
         }
 
         .content-section {
-          background: #ffffff;
+          background: #333;
           padding: 10px 20px;
           border: 1px solid #dddddd;
           border-radius: 3px;
@@ -56,6 +56,7 @@
         }
 
         .article-content {
+          background-color: #333
           white-space: pre-line;
         }
 
@@ -92,6 +93,19 @@
         .account-heading {
           font-size: 2.5rem;
         }
+
+        .list-group-mine .list-group-item {
+          background-color: #333;
+          border: 1px solid #dddddd;
+          border-radius: 3px;
+          margin-bottom: 10px;
+        }
+        input {
+          background-color: #c5c8ca;
+          border-radius: 5px;
+          border:none
+        }
+
     </style>
 
     {% if title %}
@@ -136,10 +150,10 @@
             <div class="content-section">
                 <h3>Newest Additions</h3>
                 <p class='text-muted'>The newest additions to the site.
-                <ul class="list-group">
-                    <li class="list-group-item list-group-item-light">{{new1}}</li>
-                    <li class="list-group-item list-group-item-light">{{new2}}</li>
-                    <li class="list-group-item list-group-item-light">{{new3}}</li>
+                <ul class="list-group list-group-mine">
+                    <li class="list-group-item">{{new1}}</li>
+                    <li class="list-group-item">{{new2}}</li>
+                    <li class="list-group-item">{{new3}}</li>
                 </ul>
                 </p>
             </div>

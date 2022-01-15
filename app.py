@@ -27,7 +27,7 @@ def home():
                                new3=last_three[2])
 
     if request.method == 'POST':
-        if request.form['btn_identifier'] == 'newInput':
+        if request.form['btn_identifier'] == 'Submit':
             product_name = request.form['product_name']
             quant = request.form['quantity']
             category = request.form['product_category']
