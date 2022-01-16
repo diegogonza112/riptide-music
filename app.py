@@ -2,6 +2,7 @@ from flask import Flask, redirect, render_template, request, send_file
 from werkzeug.exceptions import abort
 
 import csv_editor
+import spotify_auth
 from csv_editor import CSVEdit
 
 from models import ProductModel, db
@@ -23,7 +24,8 @@ def create_table():
 def home():
     if request.method == 'GET':
         last_three = csv_editor.get_last_3()
-        return render_template('home.html', new1=last_three[0], new2=last_three[1],
+        return render_template('home.html', new1=last_three[0],
+                               new2=last_three[1],
                                new3=last_three[2])
 
     if request.method == 'POST':
@@ -55,7 +57,8 @@ def RetrieveList():
         products = ProductModel.query.all()
         last_three = csv_editor.get_last_3()
         return render_template('datalist.html', products=products,
-                               new1=last_three[0], new2=last_three[1], new3=last_three[2])
+                               new1=last_three[0], new2=last_three[1],
+                               new3=last_three[2])
     if request.method == 'POST':
         if request.form["btn_identifier"] == 'home':
             return redirect('/')
@@ -115,7 +118,8 @@ def delete(id_):
             return redirect('/data')
         abort(404)
     last_three = csv_editor.get_last_3()
-    return render_template('delete.html', new1=last_three[0], new2=last_three[1],
+    return render_template('delete.html', new1=last_three[0],
+                           new2=last_three[1],
                            new3=last_three[2])
 
 
@@ -133,7 +137,8 @@ def error1():
     if request.method == 'POST':
         return redirect('/')
     last_three = csv_editor.get_last_3()
-    return render_template('error_home.html', new1=last_three[0], new2=last_three[1],
+    return render_template('error_home.html', new1=last_three[0],
+                           new2=last_three[1],
                            new3=last_three[2])
 
 
@@ -142,8 +147,14 @@ def error2(id_):
     if request.method == 'POST':
         return redirect(f'/data/{id_}/update')
     last_three = csv_editor.get_last_3()
-    return render_template('error_edit.html', new1=last_three[0], new2=last_three[1],
+    return render_template('error_edit.html', new1=last_three[0],
+                           new2=last_three[1],
                            new3=last_three[2])
+
+
+@app.route('/login')
+def login():
+    spotify_auth.read()
 
 
 if __name__ == "__main__":
