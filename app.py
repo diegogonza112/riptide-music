@@ -7,10 +7,9 @@ from csv_editor import CSVEdit
 
 from models import ProductModel, db
 from generate_IDs import generate_id
-from generate_user import generate_user
 
 IS_LOGGED_IN = False
-USER = generate_user()
+USER = ''
 
 app = Flask(__name__)
 
@@ -165,10 +164,12 @@ def error2(id_):
 
 @app.route('/spotify-auth')
 def spot_auth():
-    x = spotify_auth.read()
+    x = spotify_auth.user()
     if x:
         global IS_LOGGED_IN
         IS_LOGGED_IN = True
+        global USER
+        USER = x
     return redirect('/login')
 
 
