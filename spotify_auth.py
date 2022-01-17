@@ -19,6 +19,3 @@ def read():
     results = sp.current_user_top_tracks()
 
     return results
-
-
-print(read())
