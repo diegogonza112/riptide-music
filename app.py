@@ -8,8 +8,7 @@ from csv_editor import CSVEdit
 from models import ProductModel, db
 from generate_IDs import generate_id
 
-IS_LOGGED_IN = False
-USER = ''
+sa = spotify_auth.SpotifyAuth()
 
 app = Flask(__name__)
 
@@ -29,8 +28,8 @@ def home():
         last_three = csv_editor.get_last_3()
         return render_template('home.html', new1=last_three[0],
                                new2=last_three[1],
-                               new3=last_three[2], logged_in=IS_LOGGED_IN,
-                               user=USER)
+                               new3=last_three[2], logged_in=sa.success,
+                               user=sa.username)
 
     if request.method == 'POST':
         if request.form['btn_identifier'] == 'Submit':
@@ -62,8 +61,8 @@ def RetrieveList():
         last_three = csv_editor.get_last_3()
         return render_template('datalist.html', products=products,
                                new1=last_three[0], new2=last_three[1],
-                               new3=last_three[2], logged_in=IS_LOGGED_IN,
-                               user=USER)
+                               new3=last_three[2], logged_in=sa.success,
+                               user=sa.username)
     if request.method == 'POST':
         if request.form["btn_identifier"] == 'home':
             return redirect('/')
@@ -108,7 +107,7 @@ def update(id_):
     last_three = csv_editor.get_last_3()
     return render_template('update.html', product=product, new1=last_three[0],
                            new2=last_three[1], new3=last_three[2],
-                           logged_in=IS_LOGGED_IN, user=USER)
+                           logged_in=sa.success, user=sa.username)
 
 
 @app.route('/data/<int:id_>/delete', methods=['GET', 'POST'])
@@ -126,8 +125,8 @@ def delete(id_):
     last_three = csv_editor.get_last_3()
     return render_template('delete.html', new1=last_three[0],
                            new2=last_three[1],
-                           new3=last_three[2], logged_in=IS_LOGGED_IN,
-                           user=USER)
+                           new3=last_three[2], logged_in=sa.success,
+                           user=sa.username)
 
 
 @app.route('/about/', methods=['GET', 'POST'])
@@ -136,8 +135,8 @@ def about():
         return redirect('/')
     last_three = csv_editor.get_last_3()
     return render_template('text.html', new1=last_three[0], new2=last_three[1],
-                           new3=last_three[2], logged_in=IS_LOGGED_IN,
-                           user=USER)
+                           new3=last_three[2], logged_in=sa.success,
+                           user=sa.username)
 
 
 @app.route('/error-h', methods=['GET', 'POST'])
@@ -147,8 +146,8 @@ def error1():
     last_three = csv_editor.get_last_3()
     return render_template('error_home.html', new1=last_three[0],
                            new2=last_three[1],
-                           new3=last_three[2], logged_in=IS_LOGGED_IN,
-                           user=USER)
+                           new3=last_three[2], logged_in=sa.success,
+                           user=sa.username)
 
 
 @app.route('/error-e/<int:id_>', methods=['GET', 'POST'])
@@ -158,35 +157,34 @@ def error2(id_):
     last_three = csv_editor.get_last_3()
     return render_template('error_edit.html', new1=last_three[0],
                            new2=last_three[1],
-                           new3=last_three[2], logged_in=IS_LOGGED_IN,
-                           user=USER)
+                           new3=last_three[2], logged_in=sa.success,
+                           user=sa.username)
 
 
 @app.route('/spotify-auth')
 def spot_auth():
-    x = spotify_auth.user()
-    if x:
-        global IS_LOGGED_IN
-        IS_LOGGED_IN = True
-        global USER
-        USER = x
+
     return redirect('/login')
 
 
 @app.route('/login')
 def login():
-    if IS_LOGGED_IN:
+    x = sa.user()
+    if x:
+        sa.success = True
+        sa.username = x
+        sa.unused = False
+    if sa.success:
         last_three = csv_editor.get_last_3()
         return render_template('success.html', new1=last_three[0],
                                new2=last_three[1],
-                               new3=last_three[2], logged_in=IS_LOGGED_IN,
-                               user=USER)
+                               new3=last_three[2], logged_in=sa.success,
+                               user=sa.username)
     else:
         last_three = csv_editor.get_last_3()
         return render_template('no_success.html', new1=last_three[0],
                                new2=last_three[1],
-                               new3=last_three[2], logged_in=IS_LOGGED_IN,
-                               user=USER)
+                               new3=last_three[2], logged_in=sa.success)
 
 
 if __name__ == "__main__":

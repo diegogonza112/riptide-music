@@ -12,15 +12,24 @@ SPOTIPY_REDIRECT_URI = "https://hidden-castle-24851.herokuapp.com/login"
 SCOPE = "user-read-email"
 
 
-def user():
-    sp = spotipy.Spotify(
-        client_credentials_manager=SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
-                                                client_secret=
-                                                SPOTIPY_CLIENT_SECRET,
-                                                redirect_uri=
-                                                SPOTIPY_REDIRECT_URI,
-                                                scope=SCOPE
-                                                ))
-    return sp.me()['display_name']
+class SpotifyAuth:
 
-print(user())
+    def __init__(self):
+        self.unused = True
+        self.success = False
+        self.username = ''
+
+    def user(self):
+        if self.unused:
+            sp = spotipy.Spotify(
+                client_credentials_manager=SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
+                                                        client_secret=
+                                                        SPOTIPY_CLIENT_SECRET,
+                                                        redirect_uri=
+                                                        SPOTIPY_REDIRECT_URI,
+                                                        scope=SCOPE
+                                                        ))
+            return sp.me()['display_name']
+        else:
+            return self.username
+

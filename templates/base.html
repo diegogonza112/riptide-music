@@ -94,7 +94,7 @@
                     {% if logged_in %}
                     <a class="nav-item nav-link" href="{{ url_for('home') }}">{{user}}</a>
                     {% else %}
-                    <a class="nav-item nav-link" href="{{ url_for('spot_auth') }}">Spotify Login</a>
+                    <a class="nav-item nav-link" href="{{ url_for('login') }}">Spotify Login</a>
                     {% endif %}
                 </div>
             </div>
