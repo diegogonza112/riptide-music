@@ -155,7 +155,10 @@ def error2(id_):
 @app.route('/login')
 def login():
     spotify_auth.read()
-    return render_template('home.html')
+    last_three = csv_editor.get_last_3()
+    return render_template('home.html', new1=last_three[0],
+                           new2=last_three[1],
+                           new3=last_three[2])
 
 
 if __name__ == "__main__":
