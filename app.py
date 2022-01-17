@@ -7,15 +7,16 @@ from csv_editor import CSVEdit
 
 from models import ProductModel, db
 from generate_IDs import generate_id
+from generate_user import generate_user
+
+IS_LOGGED_IN = False
+USER = generate_user()
 
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
-
-IS_LOGGED_IN = False
-USER = 'Diego'
 
 
 @app.before_first_request
@@ -165,17 +166,26 @@ def error2(id_):
 @app.route('/spotify-auth')
 def spot_auth():
     x = spotify_auth.read()
+    if x:
+        global IS_LOGGED_IN
+        IS_LOGGED_IN = True
     return redirect('/login')
 
 
 @app.route('/login')
-def successful_login():
-    IS_LOGGED_IN = True
-    last_three = csv_editor.get_last_3()
-    return render_template('success.html', new1=last_three[0],
-                           new2=last_three[1],
-                           new3=last_three[2], logged_in=IS_LOGGED_IN,
-                           user=USER)
+def login():
+    if IS_LOGGED_IN:
+        last_three = csv_editor.get_last_3()
+        return render_template('success.html', new1=last_three[0],
+                               new2=last_three[1],
+                               new3=last_three[2], logged_in=IS_LOGGED_IN,
+                               user=USER)
+    else:
+        last_three = csv_editor.get_last_3()
+        return render_template('no_success.html', new1=last_three[0],
+                               new2=last_three[1],
+                               new3=last_three[2], logged_in=IS_LOGGED_IN,
+                               user=USER)
 
 
 if __name__ == "__main__":
