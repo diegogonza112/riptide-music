@@ -155,8 +155,6 @@ def error2(id_):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     spotify_auth.read()
-    if request.method == 'GET':
-        return redirect('/')
 
 
 if __name__ == "__main__":

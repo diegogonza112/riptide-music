@@ -17,3 +17,8 @@ def read():
                                                    SPOTIPY_REDIRECT_URI,
                                                    scope=SCOPE))
     results = sp.current_user_top_tracks()
+
+    return results
+
+
+print(read())
