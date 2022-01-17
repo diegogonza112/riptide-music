@@ -14,6 +14,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
+IS_LOGGED_IN = False
+USER = 'Diego'
+
 
 @app.before_first_request
 def create_table():
@@ -26,7 +29,8 @@ def home():
         last_three = csv_editor.get_last_3()
         return render_template('home.html', new1=last_three[0],
                                new2=last_three[1],
-                               new3=last_three[2])
+                               new3=last_three[2], logged_in=IS_LOGGED_IN,
+                               user=USER)
 
     if request.method == 'POST':
         if request.form['btn_identifier'] == 'Submit':
@@ -58,7 +62,8 @@ def RetrieveList():
         last_three = csv_editor.get_last_3()
         return render_template('datalist.html', products=products,
                                new1=last_three[0], new2=last_three[1],
-                               new3=last_three[2])
+                               new3=last_three[2], logged_in=IS_LOGGED_IN,
+                               user=USER)
     if request.method == 'POST':
         if request.form["btn_identifier"] == 'home':
             return redirect('/')
@@ -102,7 +107,8 @@ def update(id_):
                 return redirect(f'/error-e/{id_}')
     last_three = csv_editor.get_last_3()
     return render_template('update.html', product=product, new1=last_three[0],
-                           new2=last_three[1], new3=last_three[2])
+                           new2=last_three[1], new3=last_three[2],
+                           logged_in=IS_LOGGED_IN, user=USER)
 
 
 @app.route('/data/<int:id_>/delete', methods=['GET', 'POST'])
@@ -120,7 +126,8 @@ def delete(id_):
     last_three = csv_editor.get_last_3()
     return render_template('delete.html', new1=last_three[0],
                            new2=last_three[1],
-                           new3=last_three[2])
+                           new3=last_three[2], logged_in=IS_LOGGED_IN,
+                           user=USER)
 
 
 @app.route('/about/', methods=['GET', 'POST'])
@@ -129,7 +136,8 @@ def about():
         return redirect('/')
     last_three = csv_editor.get_last_3()
     return render_template('text.html', new1=last_three[0], new2=last_three[1],
-                           new3=last_three[2])
+                           new3=last_three[2], logged_in=IS_LOGGED_IN,
+                           user=USER)
 
 
 @app.route('/error-h', methods=['GET', 'POST'])
@@ -139,7 +147,8 @@ def error1():
     last_three = csv_editor.get_last_3()
     return render_template('error_home.html', new1=last_three[0],
                            new2=last_three[1],
-                           new3=last_three[2])
+                           new3=last_three[2], logged_in=IS_LOGGED_IN,
+                           user=USER)
 
 
 @app.route('/error-e/<int:id_>', methods=['GET', 'POST'])
@@ -149,12 +158,24 @@ def error2(id_):
     last_three = csv_editor.get_last_3()
     return render_template('error_edit.html', new1=last_three[0],
                            new2=last_three[1],
-                           new3=last_three[2])
+                           new3=last_three[2], logged_in=IS_LOGGED_IN,
+                           user=USER)
+
+
+@app.route('/spotify-auth')
+def spot_auth():
+    x = spotify_auth.read()
+    return redirect('/login')
 
 
 @app.route('/login')
-def login():
-    return redirect('/')
+def successful_login():
+    IS_LOGGED_IN = True
+    last_three = csv_editor.get_last_3()
+    return render_template('success.html', new1=last_three[0],
+                           new2=last_three[1],
+                           new3=last_three[2], logged_in=IS_LOGGED_IN,
+                           user=USER)
 
 
 if __name__ == "__main__":

@@ -90,6 +90,13 @@
                     <a class="nav-item nav-link" href="{{ url_for('about') }}">About</a>
                 </div>
                 <!-- Navbar Right Side -->
+                <div class="navbar-nav">
+                    {% if logged_in %}
+                    <a class="nav-item nav-link" href="{{ url_for('home') }}">{{user}}</a>
+                    {% else %}
+                    <a class="nav-item nav-link" href="{{ url_for('spot_auth') }}">Spotify Login</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </nav>
