@@ -156,9 +156,6 @@ def error2(id_):
 def login():
     spotify_auth.read()
     last_three = csv_editor.get_last_3()
-    return render_template('home.html', new1=last_three[0],
-                           new2=last_three[1],
-                           new3=last_three[2])
 
 
 if __name__ == "__main__":
