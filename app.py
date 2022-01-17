@@ -152,9 +152,8 @@ def error2(id_):
                            new3=last_three[2])
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login')
 def login():
-    new_info = spotify_auth.read()
     return redirect('/')
 
 
