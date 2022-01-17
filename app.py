@@ -152,10 +152,11 @@ def error2(id_):
                            new3=last_three[2])
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     spotify_auth.read()
-    last_three = csv_editor.get_last_3()
+    if request.method == 'POST':
+        return redirect('/')
 
 
 if __name__ == "__main__":
