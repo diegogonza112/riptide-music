@@ -1,12 +1,9 @@
-from flask import Flask, redirect, render_template, request, send_file, session
-from flask_login import login_manager
-from werkzeug.exceptions import abort
+from flask import Flask, redirect, render_template, request, session
 
 import generate_user
 import spotify_auth
 import spotify_search
-from csv_editor import CSVEdit
-from models import User, db
+from models import db
 
 SAVED_USER = ''
 sa = spotify_auth.SpotifyAuth()
