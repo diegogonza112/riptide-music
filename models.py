@@ -1,23 +1,37 @@
 from flask_sqlalchemy import SQLAlchemy
 
+import generate_user
+
 db = SQLAlchemy()
 
 
-class ProductModel(db.Model):
-    __tablename__ = "table"
+class User(db.Model):
+    __tablename__ = 'user'
 
-    id = db.Column(db.Integer, primary_key=True)
-    product_id = db.Column(db.Integer(), unique=True)
-    product_name = db.Column(db.String())
-    quantity = db.Column(db.Integer())
-    product_category = db.Column(db.String(80))
+    username = db.Column(db.String, primary_key=True)
+    authenticated = db.Column(db.Boolean, default=False)
 
-    def __init__(self, product_id, product_name, quantity, product_category):
-        self.product_id = product_id
-        self.product_name = product_name
-        self.quantity = quantity
-        self.product_category = product_category
+    def __init__(self, username):
+        if username == "guest.user.buddy":
+            self.username = generate_user.generate_user()
+        else:
+            self.username = username
+
+    def is_active(self):
+        """True, as all users are active."""
+        return True
+
+    def get_id(self):
+        """Return the email address to satisfy Flask-Login's requirements."""
+        return self.username
+
+    def get_pseudonym(self):
+
+        return self.pseudonym
+
+    def is_authenticated(self):
+        """Return True if the user is authenticated."""
+        return self.authenticated
 
     def __repr__(self):
-        return f"{self.product_name} | {self.quantity} | " \
-               f"{self.product_category}| {self.product_id}"
+        return f"{self.get_id()}"

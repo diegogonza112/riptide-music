@@ -12,10 +12,17 @@
 </p>
 </body>
 <form action='' method = "POST">
-    <p> Search for a song <input type = "text" name="song_name" /></p>
-    <p><input type = "submit" value = "Search" name="btn"/>
-    <input type="submit" name="btn" value="Connect Spotify" />
-    <input type="submit" name="btn" value="Continue as Guest" /></p>
+    <p>
+        <label>
+            <input type = "submit" value = "Search for a Song" name="btn"/>
+            <input type = "text" name="song_name">
+        </label> <br>
+    <label>
+        <input type="submit" name="btn" value="Connect Spotify" />
+    </label>
+        <label>
+            <input type="submit" name="btn" value="Continue as Guest" />
+        </label></p>
 </form>
 
 {% endblock %}
