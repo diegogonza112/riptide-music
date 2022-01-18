@@ -31,6 +31,7 @@ def home():
         if request.form['btn'] == 'Connect Spotify':
             return redirect('/login')
         if request.form['btn'] == 'Continue as Guest':
+            sa = spotify_auth.SpotifyAuth()
             sa.user("31t3us2vq6egv7zgcca5vqiyhhl4")
             return render_template('success.html',
                                    logged_in=sa.success,
@@ -159,6 +160,7 @@ def login():
         if request.form["btn"] == "Home":
             return redirect('/')
         elif request.form["btn"] == "Continue as Guest" and sa.unused:
+            sa = spotify_auth.SpotifyAuth()
             sa.user("31t3us2vq6egv7zgcca5vqiyhhl4")
             return render_template('success.html',
                                    logged_in=sa.success,
