@@ -7,6 +7,7 @@ import spotify_search
 from csv_editor import CSVEdit
 from models import ProductModel, db
 
+SAVED_USER = ''
 sa = spotify_auth.SpotifyAuth()
 
 app = Flask(__name__)

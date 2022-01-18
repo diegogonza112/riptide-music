@@ -5,12 +5,12 @@ import generate_IDs
 
 def generate_user():
     word_site = "https://www.mit.edu/~ecprice/wordlist.10000"
+    with open("words", "r") as words:
+        WORDS = list(set(words.read().split()))
 
-    response = requests.get(word_site)
-    WORDS = response.content.splitlines()
     joiners = ['.', '_', '-', '']
 
-    return WORDS[random.randint(0, len(WORDS))].decode("utf-8") + \
+    return WORDS[random.randint(0, len(WORDS))] + \
            joiners[random.randint(0, 3)] + \
-           WORDS[random.randint(0, len(WORDS))].decode("utf-8") + \
+           WORDS[random.randint(0, len(WORDS))] + \
            generate_IDs.generate_id()

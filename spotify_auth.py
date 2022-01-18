@@ -2,8 +2,6 @@ import spotipy
 import spotipy.util
 from spotipy.oauth2 import SpotifyOAuth
 
-import generate_user
-
 SPOTIPY_CLIENT_ID = "648d2baba64542109c3b9eb8d9525798"
 SPOTIPY_CLIENT_SECRET = "31858e4f138a414aa1874fe5488f76e7"
 SPOTIPY_REDIRECT_URI = "https://hidden-castle-24851.herokuapp.com/login"
@@ -31,6 +29,7 @@ class SpotifyAuth:
                     ))
             if sp.user(user)['display_name'] != "guest.user.buddy":
                 self.username = sp.user(user)['display_name']
+
             self._userID = sp.user(user)['display_name']
             self.success = True
             self.unused = False
