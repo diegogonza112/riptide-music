@@ -1,6 +1,7 @@
 from flask import Flask, redirect, render_template, request, send_file
 from werkzeug.exceptions import abort
 
+import generate_user
 import spotify_auth
 import spotify_search
 from csv_editor import CSVEdit
@@ -31,8 +32,8 @@ def home():
         if request.form['btn'] == 'Connect Spotify':
             return redirect('/login')
         if request.form['btn'] == 'Continue as Guest':
-            sa = spotify_auth.SpotifyAuth()
             sa.user("31t3us2vq6egv7zgcca5vqiyhhl4")
+            sa.username = generate_user.generate_user()
             return render_template('success.html',
                                    logged_in=sa.success,
                                    user=sa.username)
@@ -160,8 +161,8 @@ def login():
         if request.form["btn"] == "Home":
             return redirect('/')
         elif request.form["btn"] == "Continue as Guest" and sa.unused:
-            sa = spotify_auth.SpotifyAuth()
             sa.user("31t3us2vq6egv7zgcca5vqiyhhl4")
+            sa.username = generate_user.generate_user()
             return render_template('success.html',
                                    logged_in=sa.success,
                                    user=sa.username)
