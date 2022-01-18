@@ -26,7 +26,6 @@ def create_table():
 def home():
     if request.method == 'GET':
         return render_template('home.html',
-                               logged_in=sa.success,
                                user=session['user'])
 
     if request.method == 'POST':
@@ -37,20 +36,17 @@ def home():
         if request.form['btn'] == 'Search for a Song':
             if request.form['song_name']:
                 ss = spotify_search.SpotifySearch(request.form['song_name'])
-                return render_template("song_info.html",
-                                       logged_in=sa.success,
-                                       info=ss.song_info())
+                return render_template("song_info.html", info=ss.song_info(),
+                                       user=session['user'])
             else:
-                return render_template("error_home.html",
-
-                                       logged_in=sa.success)
+                return render_template("error_home.html", user=session['user'])
 
 
 @app.route('/about/', methods=['GET', 'POST'])
 def about():
     if request.method == 'POST':
         return redirect('/')
-    return render_template('text.html', logged_in=sa.success,
+    return render_template('text.html',
                            user=session['user'])
 
 
@@ -59,7 +55,6 @@ def error1():
     if request.method == 'POST':
         return redirect('/')
     return render_template('error_home.html',
-                           logged_in=sa.success,
                            user=session['user'])
 
 
@@ -67,7 +62,6 @@ def error1():
 def login():
     if request.method == 'GET':
         return render_template("login_prompt.html",
-                               logged_in=sa.success,
                                user=session['user'])
     if request.method == "POST":
         if request.form["btn"] == "Home":
@@ -79,13 +73,10 @@ def login():
             sa.user(request.form["user_name"])
             session['user'] = request.form["user_name"]
             return render_template('success.html',
-                                   logged_in=sa.success,
                                    user=session['user'])
         else:
-            return render_template('no_success.html',
-                                   logged_in=sa.success)
-    return render_template("error_home.html",
-                           logged_in=sa.success)
+            return render_template('no_success.html', )
+    return render_template("error_home.html")
 
 
 @app.route("/guest-login", methods=['GET', 'POST'])
@@ -97,8 +88,7 @@ def guest_login():
                                logged_in=session['user'],
                                user=session['user'])
     else:
-        return render_template("error_home.html",
-                               logged_in=sa.success)
+        return render_template("error_home.html")
 
 
 if __name__ == "__main__":
