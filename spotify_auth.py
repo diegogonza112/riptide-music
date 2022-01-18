@@ -29,11 +29,12 @@ class SpotifyAuth:
                     SPOTIPY_REDIRECT_URI,
                     scope=SCOPE
                     ))
-            if sp.user(user)['display_name'] == "31t3us2vq6egv7zgcca5vqiyhhl4":
+            if sp.user(user)['display_name'] == "guest.user.buddy":
                 self.username = generate_user.generate_user()
                 self._userID = sp.user(user)['display_name']
             else:
-                self._userID, self.username = sp.user(user)['display_name']
+                self.username = sp.user(user)['display_name']
+                self._userID = sp.user(user)['display_name']
             self.success = True
             self.unused = False
 
