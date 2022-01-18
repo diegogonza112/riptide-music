@@ -154,18 +154,13 @@ def login():
     if request.method == "POST":
         if request.form["btn"] == "Home":
             return redirect('/')
-        elif request.form["btn"] == "Continue as Guest":
-            sa.user("guest.user.buddy")
-            return render_template('success.html',
-                                   logged_in=sa.success,
-                                   user=sa.username)
-        elif request.form["btn"] == "Connect Spotify" and request.form["user" \
+        elif request.form["btn"] == "Connect Spotify" and request.form["user" +
                                                                        "_name"]:
             sa.user(request.form["user_name"])
             if sa.username:
                 return render_template('success.html',
                                        logged_in=sa.success,
-                                       user=generate_user.generate_user())
+                                       user=sa.username)
             else:
                 return render_template('no_success.html',
                                        logged_in=sa.success)
