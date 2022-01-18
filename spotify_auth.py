@@ -33,3 +33,5 @@ class SpotifyAuth:
         else:
             return self.username
 
+sa = SpotifyAuth()
+print(sa.user())
