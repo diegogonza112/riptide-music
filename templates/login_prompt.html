@@ -3,11 +3,14 @@
 
 <h3>{% block title %} Connect to Spotify {% endblock %}</h3>
 <p>Unfortunately only white-listed members can connect their Spotify,
-    please contact diego.gonza@yahoo.com for permission</p>
+    please contact diego.gonza@yahoo.com for permission, or continue as a guest.
+    (Guests do not get personalized recommendations but have the same functions
+    as white-listed users)</p>
     <form action='' method = "POST">
         <p>Spotify Username <input type = "text" name="user_name" /></p>
         <p><input type = "submit" value = "Connect Spotify" name="btn"/>
-        <input type="submit" name="btn" value="Home" /></p>
+        <input type="submit" name="btn" value="Home" />
+        <input type="submit" name="btn" value="Continue as Guest" /></p>
     </form>
 
 {% endblock %}
