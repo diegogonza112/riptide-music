@@ -9,7 +9,7 @@ import base64
 SPOTIPY_CLIENT_ID = "648d2baba64542109c3b9eb8d9525798"
 SPOTIPY_CLIENT_SECRET = "31858e4f138a414aa1874fe5488f76e7"
 SPOTIPY_REDIRECT_URI = "https://hidden-castle-24851.herokuapp.com/login"
-SCOPE = "user-read-email"
+SCOPE = "user-read-email, user-read-currently-playing, user-read-playback-state"
 
 
 class SpotifyAuth:
