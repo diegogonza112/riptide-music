@@ -49,16 +49,6 @@ def home():
                                        logged_in=sa.success)
 
 
-@app.route('/uploads/<path:filename>', methods=['GET', 'POST'])
-def download(filename):
-    return send_file(
-        path_or_file=filename,
-        mimetype="text/csv",
-        as_attachment=True,
-        attachment_filename=filename,
-        cache_timeout=0)
-
-
 @app.route('/about/', methods=['GET', 'POST'])
 def about():
     if request.method == 'POST':
@@ -72,15 +62,6 @@ def error1():
     if request.method == 'POST':
         return redirect('/')
     return render_template('error_home.html',
-                           logged_in=sa.success,
-                           user=session['user'])
-
-
-@app.route('/error-e/<int:id_>', methods=['GET', 'POST'])
-def error2(id_):
-    if request.method == 'POST':
-        return redirect(f'/data/{id_}/update')
-    return render_template('error_edit.html',
                            logged_in=sa.success,
                            user=session['user'])
 

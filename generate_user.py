@@ -4,7 +4,6 @@ import generate_IDs
 
 
 def generate_user():
-    word_site = "https://www.mit.edu/~ecprice/wordlist.10000"
     with open("words", "r") as words:
         WORDS = list(set(words.read().split()))
 
