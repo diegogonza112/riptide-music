@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h3>{% block title %} Connect to Spotify {% endblock %}</h3>
+<p>Unfortunately only white-listed members can connect their Spotify,
+    please contact diego.gonza@yahoo.com for permission</p>
+    <form action='' method = "POST">
+        <p>Spotify Username <input type = "text" name="user_name" /></p>
+        <p><input type = "submit" value = "Connect Spotify" name="btn"/>
+        <input type="submit" name="btn" value="Home" /></p>
+    </form>
+
+{% endblock %}

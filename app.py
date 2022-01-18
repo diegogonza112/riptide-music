@@ -1,12 +1,10 @@
 from flask import Flask, redirect, render_template, request, send_file
 from werkzeug.exceptions import abort
 
-import csv_editor
 import spotify_auth
+import spotify_search
 from csv_editor import CSVEdit
-
 from models import ProductModel, db
-from generate_IDs import generate_id
 
 sa = spotify_auth.SpotifyAuth()
 
@@ -25,43 +23,33 @@ def create_table():
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'GET':
-        last_three = csv_editor.get_last_3()
-        return render_template('home.html', new1=last_three[0],
-                               new2=last_three[1],
-                               new3=last_three[2], logged_in=sa.success,
+        return render_template('home.html',
+                               logged_in=sa.success,
                                user=sa.username)
 
     if request.method == 'POST':
-        if request.form['btn_identifier'] == 'Submit':
-            product_name = request.form['product_name']
-            quant = request.form['quantity']
-            category = request.form['product_category']
-            if product_name and quant and category:
-                product_id = generate_id()
-                product = ProductModel(product_id=product_id,
-                                       product_name=product_name,
-                                       quantity=quant,
-                                       product_category=category)
-                csv_row = f"{product_name}, {quant}, {category}, {product_id}\n"
-                with open('product_info.csv', 'a') as fd:
-                    fd.write(csv_row)
-                db.session.add(product)
-                db.session.commit()
-                return redirect('/data')
+        if request.form['btn'] == 'Connect Spotify':
+            return redirect('/login')
+        if request.form['btn'] == 'Search':
+            if request.form['song_name']:
+                ss = spotify_search.SpotifySearch(request.form['song_name'])
+                return render_template("song_info.html",
+
+                                       logged_in=sa.success,
+                                       info=ss.song_info())
             else:
-                return redirect('/error-h')
-        if request.form['btn_identifier'] == 'showData':
-            return redirect('/data')
+                return render_template("error_home.html",
+
+                                       logged_in=sa.success)
 
 
 @app.route('/data', methods=['GET', 'POST'])
 def RetrieveList():
     if request.method == 'GET':
         products = ProductModel.query.all()
-        last_three = csv_editor.get_last_3()
+
         return render_template('datalist.html', products=products,
-                               new1=last_three[0], new2=last_three[1],
-                               new3=last_three[2], logged_in=sa.success,
+                               logged_in=sa.success,
                                user=sa.username)
     if request.method == 'POST':
         if request.form["btn_identifier"] == 'home':
@@ -104,9 +92,7 @@ def update(id_):
                 return redirect('/data')
             else:
                 return redirect(f'/error-e/{id_}')
-    last_three = csv_editor.get_last_3()
-    return render_template('update.html', product=product, new1=last_three[0],
-                           new2=last_three[1], new3=last_three[2],
+    return render_template('update.html', product=product,
                            logged_in=sa.success, user=sa.username)
 
 
@@ -122,10 +108,8 @@ def delete(id_):
             db.session.commit()
             return redirect('/data')
         abort(404)
-    last_three = csv_editor.get_last_3()
-    return render_template('delete.html', new1=last_three[0],
-                           new2=last_three[1],
-                           new3=last_three[2], logged_in=sa.success,
+    return render_template('delete.html',
+                           logged_in=sa.success,
                            user=sa.username)
 
 
@@ -133,9 +117,7 @@ def delete(id_):
 def about():
     if request.method == 'POST':
         return redirect('/')
-    last_three = csv_editor.get_last_3()
-    return render_template('text.html', new1=last_three[0], new2=last_three[1],
-                           new3=last_three[2], logged_in=sa.success,
+    return render_template('text.html', logged_in=sa.success,
                            user=sa.username)
 
 
@@ -143,10 +125,8 @@ def about():
 def error1():
     if request.method == 'POST':
         return redirect('/')
-    last_three = csv_editor.get_last_3()
-    return render_template('error_home.html', new1=last_three[0],
-                           new2=last_three[1],
-                           new3=last_three[2], logged_in=sa.success,
+    return render_template('error_home.html',
+                           logged_in=sa.success,
                            user=sa.username)
 
 
@@ -154,37 +134,39 @@ def error1():
 def error2(id_):
     if request.method == 'POST':
         return redirect(f'/data/{id_}/update')
-    last_three = csv_editor.get_last_3()
-    return render_template('error_edit.html', new1=last_three[0],
-                           new2=last_three[1],
-                           new3=last_three[2], logged_in=sa.success,
+    return render_template('error_edit.html',
+                           logged_in=sa.success,
                            user=sa.username)
 
 
 @app.route('/spotify-auth')
 def spot_auth():
-
     return redirect('/login')
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    x = sa.user()
-    if x:
-        sa.success = True
-        sa.username = x
-        sa.unused = False
-    if sa.success:
-        last_three = csv_editor.get_last_3()
-        return render_template('success.html', new1=last_three[0],
-                               new2=last_three[1],
-                               new3=last_three[2], logged_in=sa.success,
+    if request.method == 'GET':
+        return render_template("login_prompt.html",
+                               logged_in=sa.success,
                                user=sa.username)
-    else:
-        last_three = csv_editor.get_last_3()
-        return render_template('no_success.html', new1=last_three[0],
-                               new2=last_three[1],
-                               new3=last_three[2], logged_in=sa.success)
+    if request.method == "POST":
+        if request.form["btn"] == "Home":
+            return redirect('/')
+        elif request.form["btn"] == "Connect Spotify" and request.form["user" \
+                                                                       "_name"]:
+            sa.user(request.form["user_name"])
+            if sa.username:
+                return render_template('success.html',
+
+                                       logged_in=sa.success,
+                                       user=sa.username)
+            else:
+                return render_template('no_success.html',
+
+                                       logged_in=sa.success)
+    return render_template("error_home.html",
+                           logged_in=sa.success)
 
 
 if __name__ == "__main__":
