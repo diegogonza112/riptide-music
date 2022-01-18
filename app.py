@@ -154,8 +154,17 @@ def login():
     if request.method == "POST":
         if request.form["btn"] == "Home":
             return redirect('/')
-        elif request.form["btn"] == "Connect Spotify" and request.form["user" +
-                                                                       "_name"]:
+        elif request.form["btn"] == "Continue as Guest" and sa.unused:
+            sa.user("31t3us2vq6egv7zgcca5vqiyhhl4")
+            if sa.username:
+                return render_template('success.html',
+                                       logged_in=sa.success,
+                                       user=sa.username)
+            else:
+                return render_template('no_success.html',
+                                       logged_in=sa.success)
+        elif request.form["btn"] == "Connect Spotify" and \
+                request.form["user_name"] and sa.unused:
             sa.user(request.form["user_name"])
             if sa.username:
                 return render_template('success.html',

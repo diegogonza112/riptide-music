@@ -21,17 +21,19 @@ class SpotifyAuth:
     def user(self, user):
         if self.unused:
             sp = spotipy.Spotify(
-                client_credentials_manager=SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
-                                                        client_secret=
-                                                        SPOTIPY_CLIENT_SECRET,
-                                                        redirect_uri=
-                                                        SPOTIPY_REDIRECT_URI,
-                                                        scope=SCOPE
-                                                        ))
-            if sp.user(user)['display_name'] == "guest.user.buddy":
+                client_credentials_manager=SpotifyOAuth(
+                    client_id=SPOTIPY_CLIENT_ID,
+                    client_secret=
+                    SPOTIPY_CLIENT_SECRET,
+                    redirect_uri=
+                    SPOTIPY_REDIRECT_URI,
+                    scope=SCOPE
+                    ))
+            if sp.user(user)['display_name'] == "31t3us2vq6egv7zgcca5vqiyhhl4":
                 self.username = generate_user.generate_user()
                 self._userID = sp.user(user)['display_name']
             else:
                 self._userID, self.username = sp.user(user)['display_name']
             self.success = True
             self.unused = False
+
