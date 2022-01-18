@@ -28,7 +28,21 @@ class SpotifySearch:
         for i in data["tracks"]["items"]:
             x = {"Song Name": i['name'], "Artist(s)": i['artists'][0]['name'],
                  "Album": i["album"]['name'],
-                 "Year": i["album"]["release_date"],
-                 "Album Art": i["album"]["images"][1]["url"]}
+                 "Year": i["album"]["release_date"]}
+            for j in range(len(i["album"]["images"])):
+                if i["album"]["images"][j]["url"]:
+                    x["Album Art"] = i["album"]["images"][j]["url"]
+                    break
+            for j in range(len(i['artists'])):
+                if i['artists'][j]['name']:
+                    x["Artist(s)"] = i['artists'][j]['name']
+                    break
+            if "Artist(s)" not in x:
+                x["Artist(s)"] = "N/A"
+            if "Album Art" not in x:
+                x["Album Art"] = 'https://i.scdn.co/image/ab67616d0000b273cad19' \
+                                 '0f1a73c024e5a40dddd'
+
             info.append(x)
         return info
+
