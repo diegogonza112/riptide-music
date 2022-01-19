@@ -2,14 +2,15 @@
 
 {% block content %}
 
-<div style="width:650px;height:600px;line-height:3em;overflow:scroll;padding:5px;">
+<div style="width:95vh;height:80vh;line-height:3em;overflow:scroll;padding:5px;">
     <ul class="list-group list-group-mine">
     {% for i in info %}
-    <li class="list-group-item">
-        <img src="{{i['Album Art']}}" alt="Album Art" style="width:170px;height:170px;" align="left" id="hp"><p>Song: {{i["Song Name"]}}<br>
+    <li class="list-group-item" style="overflow-clip-margin:10px;overflow:scroll;white-space:nowrap;text-overflow:scroll;">
+        <img src="{{i['Album Art']}}" alt="Album Art" style="width:170px;height:170px;float:left;margin:10px" id="hp">
+        Song: {{i["Song Name"]}}<br>
         Artist(s): {{i["Artist(s)"]}}<br>
         Album: {{i["Album"]}} <br>
-        Year: {{i["Year"].split('-')[0]}}</p>
+        Year: {{i["Year"].split('-')[0]}}
     </li>
     {%endfor%}
     </ul>
