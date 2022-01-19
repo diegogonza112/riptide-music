@@ -19,15 +19,15 @@ db.init_app(app)
 @app.before_first_request
 def create_table():
     db.create_all()
-    session['user'] = ''
 
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'GET':
-        return render_template('home.html',
-                               user=session['user'])
-
+        if 'user' in session:
+            return render_template('home.html', user=session['user'])
+        else:
+            return render_template('home.html')
     if request.method == 'POST':
         if request.form['btn'] == 'Connect Spotify':
             return redirect('/login')
@@ -35,34 +35,50 @@ def home():
             return redirect('/guest-login')
         if request.form['btn'] == 'Search for a Song':
             if request.form['song_name']:
-                ss = spotify_search.SpotifySearch(request.form['song_name'])
-                return render_template("song_info.html", info=ss.song_info(),
-                                       user=session['user'])
+                if 'user' in session:
+                    ss = spotify_search.SpotifySearch(request.form['song_name'])
+                    return render_template("song_info.html",
+                                           info=ss.song_info(),
+                                           user=session['user'])
+                else:
+                    ss = spotify_search.SpotifySearch(request.form['song_name'])
+                    return render_template("song_info.html", info=ss.song_info())
+
             else:
-                return render_template("error_home.html", user=session['user'])
+                if 'user' in session:
+                    return render_template("error_home.html",
+                                           user=session['user'])
+                else:
+                    return render_template("error_home.html")
 
 
 @app.route('/about/', methods=['GET', 'POST'])
 def about():
     if request.method == 'POST':
         return redirect('/')
-    return render_template('text.html',
-                           user=session['user'])
+    if 'user' in session:
+        return render_template('text.html', user=session['user'])
+    else:
+        return render_template('text.html')
 
 
 @app.route('/error-h', methods=['GET', 'POST'])
 def error1():
     if request.method == 'POST':
         return redirect('/')
-    return render_template('error_home.html',
-                           user=session['user'])
+    if 'user' in session:
+        return render_template('error_home.html', user=session['user'])
+    else:
+        return render_template('error_home.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
-        return render_template("login_prompt.html",
-                               user=session['user'])
+        if 'user' in session:
+            return render_template('login_prompt.html', user=session['user'])
+        else:
+            return render_template('login_prompt.html')
     if request.method == "POST":
         if request.form["btn"] == "Home":
             return redirect('/')
@@ -75,7 +91,7 @@ def login():
             return render_template('success.html',
                                    user=session['user'])
         else:
-            return render_template('no_success.html', )
+            return render_template('no_success.html')
     return render_template("error_home.html")
 
 
@@ -84,9 +100,7 @@ def guest_login():
     if request.method == 'GET':
         sa.user("31t3us2vq6egv7zgcca5vqiyhhl4")
         session['user'] = generate_user.generate_user()
-        return render_template('success.html',
-                               logged_in=session['user'],
-                               user=session['user'])
+        return render_template('success.html', user=session['user'])
     else:
         return render_template("error_home.html")
 
