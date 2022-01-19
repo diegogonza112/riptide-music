@@ -128,14 +128,17 @@
             {% block content %}{% endblock %}
         </div>
         <div class="col-md-4">
-            <div class="content-section">
-                <h3>Upcoming Albums</h3>
+            <div class="content-section" style="overflow:scroll;width:50vh;height:50vh;">
+                <h3>Newest Releases</h3>
                 <p class='text-muted'>New albums to be released in the near future
                 <ul class="list-group list-group-mine">
-                    <li class="list-group-item">Crisis of Faith by Billy Talent</li>
-                    <li class="list-group-item">Once Twice Melody by Beach House</li>
-                    <li class="list-group-item">Love Sux by Avril Lavigne</li>
+                    {% for i in new_release%}
+                    <li class="list-group-item">{{i}}</li>
+                    {% endfor %}
                 </ul>
+                {% if not new_release %}
+                <h2>No New Releases</h2>
+                {% endif %}
                 </p>
             </div>
         </div>

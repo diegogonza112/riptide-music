@@ -21,6 +21,11 @@ def create_table():
     db.create_all()
 
 
+@app.context_processor
+def inject():
+    return dict(new_release=spotify_search.new_rel())
+
+
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'GET':
@@ -42,7 +47,8 @@ def home():
                                            user=session['user'])
                 else:
                     ss = spotify_search.SpotifySearch(request.form['song_name'])
-                    return render_template("song_info.html", info=ss.song_info())
+                    return render_template("song_info.html",
+                                           info=ss.song_info())
 
             else:
                 if 'user' in session:

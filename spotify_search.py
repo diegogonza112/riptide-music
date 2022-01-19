@@ -8,6 +8,29 @@ SPOTIPY_REDIRECT_URI = "https://hidden-castle-24851.herokuapp.com/login"
 SCOPE = "user-read-email, user-read-currently-playing, user-read-playback-state"
 
 
+def new_rel():
+    sp = spotipy.Spotify(
+        client_credentials_manager=SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
+                                                client_secret=
+                                                SPOTIPY_CLIENT_SECRET,
+                                                redirect_uri=
+                                                SPOTIPY_REDIRECT_URI,
+                                                scope=SCOPE
+                                                ))
+
+    data = sp.new_releases(limit=5)
+    info = []
+    for i in data['albums']['items']:
+        y = i['name']
+        l = i['album_type']
+        for j in i['artists']:
+            x = j['name']
+            info.append(l.title() + ': ' + y + ' by ' + x)
+            break
+
+    return info
+
+
 class SpotifySearch:
 
     def __init__(self, song):
@@ -46,3 +69,6 @@ class SpotifySearch:
             info.append(x)
         return info
 
+
+ss = SpotifySearch("yes")
+print(new_rel())
