@@ -78,4 +78,9 @@ def load_model(value):
     value = np.array(value).reshape(1, -1)
     verdict = model.predict(value).flat[0]
 
-    return round(percentage * 100, 2), bool(verdict)
+    if verdict:
+        popularity = "Popular"
+    else:
+        popularity = "Unpopular"
+
+    return round(percentage * 100, 2), popularity

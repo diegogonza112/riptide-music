@@ -2,6 +2,7 @@ from flask import Flask, redirect, render_template, request, session
 
 import generate_user
 import spotify_auth
+import spotify_popular_ai
 import spotify_search
 from models import db
 
@@ -39,23 +40,13 @@ def home():
         if request.form['btn'] == 'Continue as Guest':
             return redirect('/guest-login')
         if request.form['btn'] == 'Search for a Song':
-            if request.form['song_name']:
-                if 'user' in session:
-                    ss = spotify_search.SpotifySearch()
-                    return render_template("song_info.html",
-                                           info=ss.song_info(request.form['song_name']),
-                                           user=session['user'])
-                else:
-                    ss = spotify_search.SpotifySearch()
-                    return render_template("song_info.html",
-                                           info=ss.song_info(request.form['song_name']))
-
-            else:
-                if 'user' in session:
-                    return render_template("error_home.html",
-                                           user=session['user'])
-                else:
-                    return render_template("error_home.html")
+            return redirect(f'/song-search/{request.form["song_name"]}')
+    else:
+        if 'user' in session:
+            return render_template("error_home.html",
+                                   user=session['user'])
+        else:
+            return render_template("error_home.html")
 
 
 @app.route('/about/', methods=['GET', 'POST'])
@@ -66,6 +57,48 @@ def about():
         return render_template('text.html', user=session['user'])
     else:
         return render_template('text.html')
+
+
+@app.route('/song-search/<song>', methods=['GET', 'POST'])
+def song_info(song):
+    if request.method == 'GET':
+        if 'user' in session:
+            ss = spotify_search.SpotifySearch()
+            return render_template("song_info.html",
+                                   info=ss.song_info(song),
+                                   user=session['user'])
+        else:
+            ss = spotify_search.SpotifySearch()
+            return render_template("song_info.html",
+                                   info=ss.song_info(request.form['song_name']))
+
+    return "Failure"
+
+
+@app.route('/song-suggest/<uri>', methods=['GET', 'POST'])
+def song_suggest(uri):
+    if request.method == 'GET':
+        if 'user' in session:
+            base_uri = 'spotify:track:'
+            full_uri = base_uri + uri
+            return render_template("suggestion.html", user=session['user'])
+        else:
+            render_template("suggestion.html", user=session['user'])
+
+
+@app.route('/prediction-bot/<uri>', methods=['GET', 'POST'])
+def pret_bot(uri):
+    if request.method == 'GET':
+        ss = spotify_search.SpotifySearch()
+        if 'user' in session:
+            base_uri = 'spotify:track:'
+            full_uri = base_uri + uri
+            decision = spotify_popular_ai.analyse_audio(full_uri)
+            return render_template("prediction.html", decision=decision,
+                                   user=session['user'],
+                                   info=ss.single_track(full_uri))
+        else:
+            render_template("suggestion.html", user=session['user'])
 
 
 @app.route('/error-h', methods=['GET', 'POST'])

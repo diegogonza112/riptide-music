@@ -28,7 +28,7 @@ class SpotifySearch:
             x = {"Song Name": i['name'], "Artist(s)": i['artists'][0]['name'],
                  "Album": i["album"]['name'],
                  "Year": i["album"]["release_date"],
-                 'uri': i['uri']}
+                 'uri': i['uri'].removeprefix("spotify:track:")}
             for j in range(len(i["album"]["images"])):
                 if i["album"]["images"][j]["url"]:
                     x["Album Art"] = i["album"]["images"][j]["url"]
@@ -69,4 +69,16 @@ class SpotifySearch:
                 empty.append(info[i])
         return empty
 
+    def single_track(self, uri):
+        data = self.sp.track(uri)
+        x = {"Song Name": '', "Artist(s)": '',
+             "Year": '',
+             "Album Art": ''}
+        for i in data:
+            x["Album Art"] = data[i]['images'][0]['url']
+            x["Artist(s)"] = data[i]['artists'][0]['name']
+            x["Year"] = int(data[i]["release_date"].split('-')[0])
+            break
+        x['Song Name'] = data['name']
+        return x
 
