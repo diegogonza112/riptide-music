@@ -44,11 +44,7 @@ def make_model():
 
     train_in, test_in, train_out, test_out = train_test_split(all_info,
                                                               all_values)
-    train_i, test_i, train_o, test_o = train_test_split(all_info,
-                                                        all_values)
     predictor.fit(train_in, train_out)
-
-    print(predictor.score(test_i, test_o))
 
     pickle.dump(predictor, open('finalized.sav', 'wb'))
 
@@ -79,8 +75,9 @@ def load_model(value):
     verdict = model.predict(value).flat[0]
 
     if verdict:
-        popularity = "Popular"
+        popularity = "popular"
     else:
-        popularity = "Unpopular"
+        popularity = "unpopular"
 
     return round(percentage * 100, 2), popularity
+
