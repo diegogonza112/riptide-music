@@ -12,11 +12,14 @@
             Artist(s): {{i["Artist(s)"]}}<br><br>
             Album: {{i["Album"]}} <br><br>
             Year: {{i["Year"].split('-')[0]}}<br><br>
+            <button class=button onclick="window.location.href='/song-suggest/{{i['uri']}}';">
+                Play
+            </button>
             <button class=button onclick="window.location.href='/prediction-bot/{{i['uri']}}';">
                 Predict Popularity
             </button>
             <button class=button onclick="window.location.href='/song-suggest/{{i['uri']}}';">
-                Predict Popularity
+                Song Suggestion
             </button>
 
         </li>
