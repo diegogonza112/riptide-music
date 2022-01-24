@@ -87,7 +87,7 @@ def song_suggest(uri):
 
 
 @app.route('/prediction-bot/<uri>', methods=['GET', 'POST'])
-def pret_bot(uri):
+def pred_bot(uri):
     if request.method == 'GET':
         ss = spotify_search.SpotifySearch()
         if 'user' in session:
@@ -121,10 +121,10 @@ def login():
     if request.method == "POST":
         if request.form["btn"] == "Home":
             return redirect('/')
-        elif request.form["btn"] == "Continue as Guest" and sa.unused:
+        elif request.form["btn"] == "Continue as Guest":
             return redirect('/guest-login')
         elif request.form["btn"] == "Connect Spotify" and \
-                request.form["user_name"] and sa.unused:
+                request.form["user_name"]:
             sa.user(request.form["user_name"])
             session['user'] = request.form["user_name"]
             return render_template('success.html',
