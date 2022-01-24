@@ -1,6 +1,5 @@
 from flask import Flask, redirect, render_template, request, session
 
-from playsound import playsound
 import generate_user
 import spotify_auth
 import spotify_popular_ai
@@ -87,11 +86,6 @@ def song_suggest(uri):
             render_template("suggestion.html", user=session['user'])
 
 
-@app.route('/play-sound/<mp3>')
-def play_sound(mp3):
-    return playsound(mp3)
-
-
 @app.route('/prediction-bot/<uri>', methods=['GET', 'POST'])
 def pret_bot(uri):
     if request.method == 'GET':
@@ -152,5 +146,3 @@ def guest_login():
 
 if __name__ == "__main__":
     app.run()
-    play_sound('https://p.scdn.co/mp3-preview/4631c6f267b7ed0b5c147ac81b5542c4bafc91a3?cid=648d2baba64542109c3b9eb8d9525798')
-
