@@ -12,9 +12,15 @@
             Artist(s): {{i["Artist(s)"]}}<br><br>
             Album: {{i["Album"]}} <br><br>
             Year: {{i["Year"].split('-')[0]}}<br><br>
-            <button class=button onclick="window.location.href='/song-suggest/{{i['uri']}}';">
-                Play
+            {% if i["preview"] %}
+                <audio controls>
+                    <source src={{i["preview"]}} type="audio/mpeg">
+                </audio>
+            {% else %}
+            <button class=text-muted style="background-color: #c5c8ca;border-radius: 5px;border:none">
+                Preview unavailable
             </button>
+            {% endif %}
             <button class=button onclick="window.location.href='/prediction-bot/{{i['uri']}}';">
                 Predict Popularity
             </button>

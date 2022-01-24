@@ -13,16 +13,19 @@
 </body>
 <form action='' method = "POST">
     <p>
+        {% if user %}
         <label>
             <input type = "submit" value = "Search for a Song" name="btn"/>
             <input type = "text" name="song_name">
         </label> <br>
-    <label>
-        <input type="submit" name="btn" value="Connect Spotify" />
-    </label>
+        {% else %}
         <label>
-            <input type="submit" name="btn" value="Continue as Guest" />
-        </label></p>
+            <input type="submit" name="btn" value="Connect Spotify" />
+        </label>
+            <label>
+                <input type="submit" name="btn" value="Continue as Guest" />
+            </label></p>
+        {% endif %}
 </form>
 
 {% endblock %}

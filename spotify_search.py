@@ -28,7 +28,8 @@ class SpotifySearch:
             x = {"Song Name": i['name'], "Artist(s)": i['artists'][0]['name'],
                  "Album": i["album"]['name'],
                  "Year": i["album"]["release_date"],
-                 'uri': i['uri'].removeprefix("spotify:track:")}
+                 'uri': i['uri'].removeprefix("spotify:track:"),
+                 'preview': i['preview_url']}
             for j in range(len(i["album"]["images"])):
                 if i["album"]["images"][j]["url"]:
                     x["Album Art"] = i["album"]["images"][j]["url"]
