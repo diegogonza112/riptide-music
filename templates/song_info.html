@@ -13,9 +13,11 @@
             Album: {{i["Album"]}} <br><br>
             Year: {{i["Year"].split('-')[0]}}<br><br>
             {% if i["preview"] %}
-                <audio controls>
+                <audio id="player{{i['preview']}}">
                     <source src={{i["preview"]}} type="audio/mpeg">
                 </audio>
+                <button class="button" onclick="document.getElementById('player{{i['preview']}}').play()">Play</button>
+                <button class="button" onclick="document.getElementById('player{{i['preview']}}').pause()">Pause</button>
             {% else %}
             <button class=text-muted style="background-color: #c5c8ca;border-radius: 5px;border:none">
                 Preview unavailable
