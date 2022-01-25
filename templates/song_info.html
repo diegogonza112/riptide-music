@@ -7,22 +7,15 @@
     <ul class="list-group list-group-mine">
         {% for i in info %}
         <li class="list-group-item" style="overflow-clip-margin:10px;overflow:scroll;white-space:nowrap;text-overflow:scroll;">
-            <img src="{{i['Album Art']}}" alt="Album Art" style="width:170px;height:170px;float:left;margin:10px" id="hp">
+            <iframe style="float:left;margin:10px"
+                    src="https://open.spotify.com/embed/track/{{i['uri']}}"
+                    width="40%" height="380" frameborder="0"
+                    allowtransparency="true" allow="encrypted-media"></iframe>
+            <br><br><br><br>
             Song: {{i["Song Name"]}}<br><br>
             Artist(s): {{i["Artist(s)"]}}<br><br>
             Album: {{i["Album"]}} <br><br>
             Year: {{i["Year"].split('-')[0]}}<br><br>
-            {% if i["preview"] %}
-                <audio id="player{{i['preview']}}">
-                    <source src={{i["preview"]}} type="audio/mpeg">
-                </audio>
-                <button class="button" onclick="document.getElementById('player{{i['preview']}}').play()">Play</button>
-                <button class="button" onclick="document.getElementById('player{{i['preview']}}').pause()">Pause</button>
-            {% else %}
-            <button class=text-muted style="background-color: #c5c8ca;border-radius: 5px;border:none">
-                Preview unavailable
-            </button>
-            {% endif %}
             <button class=button onclick="window.location.href='/prediction-bot/{{i['uri']}}';">
                 Predict Popularity
             </button>

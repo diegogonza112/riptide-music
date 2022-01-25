@@ -1,24 +1,22 @@
 import spotipy
 import spotipy.util
-from spotipy.oauth2 import SpotifyOAuth
+from spotipy.oauth2 import SpotifyOAuth, SpotifyClientCredentials
 
 SPOTIPY_CLIENT_ID = "648d2baba64542109c3b9eb8d9525798"
 SPOTIPY_CLIENT_SECRET = "31858e4f138a414aa1874fe5488f76e7"
 SPOTIPY_REDIRECT_URI = "https://hidden-castle-24851.herokuapp.com/login"
 SCOPE = "user-read-email, user-read-currently-playing, user-read-playback-state"
+token = 'BQC8h48xIvVMFaB3ZhE9jTFFOpruBaqOlwqjIeXF9DrFZiruxom608jferBZg-xqYAw2' \
+        '8-xmSOwrFChD58ReSPHGtLDuiJpbVruM6aJ73ZpHgjpQ9hC9o_M-bELvzWpOTbg-CLey' \
+        'ok2NgvHztarLUuGNmeEKUsoKlGZkTjgu'
 
 
 class SpotifySearch:
 
     def __init__(self):
-        self.sp = spotipy.Spotify(
-            client_credentials_manager=SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
-                                                    client_secret=
-                                                    SPOTIPY_CLIENT_SECRET,
-                                                    redirect_uri=
-                                                    SPOTIPY_REDIRECT_URI,
-                                                    scope=SCOPE
-                                                    ))
+        self.sp = spotipy.Spotify(client_credentials_manager=SpotifyOAuth(
+            client_id=SPOTIPY_CLIENT_ID, client_secret=SPOTIPY_CLIENT_SECRET,
+            redirect_uri=SPOTIPY_REDIRECT_URI, scope=SCOPE))
 
     def song_info(self, song):
 
@@ -82,4 +80,3 @@ class SpotifySearch:
             break
         x['Song Name'] = data['name']
         return x
-
