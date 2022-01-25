@@ -96,7 +96,8 @@ def pred_bot(uri):
             decision = spotify_popular_ai.analyse_audio(full_uri)
             return render_template("prediction.html", decision=decision,
                                    user=session['user'],
-                                   info=ss.single_track(full_uri))
+                                   info=ss.single_track(full_uri),
+                                   uri=full_uri)
         else:
             render_template("suggestion.html", user=session['user'])
 

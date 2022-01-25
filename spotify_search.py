@@ -26,22 +26,13 @@ class SpotifySearch:
             x = {"Song Name": i['name'], "Artist(s)": i['artists'][0]['name'],
                  "Album": i["album"]['name'],
                  "Year": i["album"]["release_date"],
-                 'uri': i['uri'].removeprefix("spotify:track:"),
-                 'preview': i['preview_url']}
-            for j in range(len(i["album"]["images"])):
-                if i["album"]["images"][j]["url"]:
-                    x["Album Art"] = i["album"]["images"][j]["url"]
-                    break
+                 'uri': i['uri'].removeprefix("spotify:track:")}
             for j in range(len(i['artists'])):
                 if i['artists'][j]['name']:
                     x["Artist(s)"] = i['artists'][j]['name']
                     break
             if "Artist(s)" not in x:
                 x["Artist(s)"] = "N/A"
-            if "Album Art" not in x:
-                x["Album Art"] = 'https://i.scdn.co/image/ab67616d0000b273' \
-                                 'cad190f1a73c024e5a40dddd'
-
             info.append(x)
         return info
 
@@ -71,10 +62,8 @@ class SpotifySearch:
     def single_track(self, uri):
         data = self.sp.track(uri)
         x = {"Song Name": '', "Artist(s)": '',
-             "Year": '',
-             "Album Art": ''}
+             "Year": ''}
         for i in data:
-            x["Album Art"] = data[i]['images'][0]['url']
             x["Artist(s)"] = data[i]['artists'][0]['name']
             x["Year"] = int(data[i]["release_date"].split('-')[0])
             break
