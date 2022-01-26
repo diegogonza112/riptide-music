@@ -1,4 +1,5 @@
 from flask import Flask, redirect, render_template, request, session
+import config
 
 import generate_user
 import spotify_auth
@@ -138,7 +139,7 @@ def login():
 @app.route("/guest-login", methods=['GET', 'POST'])
 def guest_login():
     if request.method == 'GET':
-        sa.user("31t3us2vq6egv7zgcca5vqiyhhl4")
+        sa.user(config.guest)
         session['user'] = generate_user.generate_user()
         return render_template('success.html', user=session['user'])
     else:
