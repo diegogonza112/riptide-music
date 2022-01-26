@@ -6,7 +6,8 @@
     {% if info %}
     <ul class="list-group list-group-mine">
         {% for i in info %}
-        <li class="list-group-item" style="overflow-clip-margin:10px;overflow:scroll;white-space:nowrap;text-overflow:scroll;">
+        <li class="list-group-item" style="overflow-clip-margin:10px;
+        overflow:scroll;white-space:nowrap;text-overflow:scroll;">
             <iframe style="float:left;margin:10px"
                     src="https://open.spotify.com/embed/track/{{i['uri']}}"
                     width="40%" height="380" frameborder="0"
