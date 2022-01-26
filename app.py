@@ -97,7 +97,7 @@ def pred_bot(uri):
             return render_template("prediction.html", decision=decision,
                                    user=session['user'],
                                    info=ss.single_track(full_uri),
-                                   uri=full_uri)
+                                   uri=uri)
         else:
             render_template("suggestion.html", user=session['user'])
 

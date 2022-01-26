@@ -5,7 +5,8 @@
 <iframe style="float:left;margin:10px"
         src="https://open.spotify.com/embed/track/{{uri}}"
         width="40%" height="380" frameborder="0"
-        allowtransparency="true" allow="encrypted-media"></iframe>
+        allowtransparency="true" allow="encrypted-media">
+</iframe>
 <h1>
     {% if info["Year"] < 2021 %}
     {{info["Song Name"]}} by {{info["Artist(s)"]}} would have a {{decision[0]}}% chance of being {{decision[1]}} today
